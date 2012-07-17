@@ -119,7 +119,7 @@ module Sprockets
         path = root.join(filename)
         paths << path
 
-        if stat(path).directory?
+        if (stat(path).directory? rescue false)
           each_entry(path) do |subpath|
             paths << subpath
           end
@@ -135,7 +135,7 @@ module Sprockets
       return to_enum(__method__) unless block_given?
       paths.each do |root|
         each_entry(root) do |path|
-          if !stat(path).directory?
+          if !(stat(path).directory? rescue false)
             yield path
           end
         end
